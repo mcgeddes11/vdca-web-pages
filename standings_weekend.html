@@ -23,31 +23,28 @@
 
 <body>
 <div id="east_div">
-	<h3>Standings - Eastern Pool</h3>
+	<h3>Standings - Eastern Conference</h3>
 	<table id="east_datatable_table"></table>
 </div>
 <div id="east_div">
-	<h3>Standings - Western Pool</h3>
-	<table id="west_datatable_table"></table>
+	<h3>Standings - Western Conference</h3>
+	<table id="west_datatable_table" style="white-space: nowrap;"></table>
 </div>
 
-<div id="east_table" style="display:none">
+<div id="input_table" style="display:none">
 	<p>
-	<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=1&club=23365&playerid=&mininns=&minruns=&minovers=&team=&grade=9302&pool=East&season=2019&finals=0'></script>
+	<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=1&club=23365&playerid=&mininns=&minruns=&minovers=&team=&grade=9302&pool=&season=2019&finals=0'></script>
 	</p>
 </div>
 
-<div id="west_table" style="display:none">
-	<p>
-	<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=1&club=23365&playerid=&mininns=&minruns=&minovers=&team=&grade=9302&pool=West&season=2019&finals=0'></script>
-	</p>
-</div>
 
 
  
  <script>
  
- 
+	var conferenceMapping = {"Albion": "West", "University": "West", "Colts Weekend": "West", "Alcos": "West", "Oak Bay": "West",
+							 "Islanders": "East", "Incogs": "East", "Nanaimo": "East", "Metchosin Weekend": "East", "Cowichan": "East"};
+	
 	var waitForEl = function(selector, callback, count) {
 	  if (jQuery(selector).length) {
 		callback();
@@ -65,75 +62,68 @@
 	};
 
 	// Wait for east table to arrive from report, then parse it
-	var east_selector = $("#east_table .ss_table");
-	var east_headers = [];
-	var east_content = [];
-	waitForEl(east_selector, function() {
+	var selector = $("#input_table .ss_table");
+	var headers = [];
+	var content = [];
+	waitForEl(selector, function() {
 		
 		// Pull data out of table
 		var row;
-		$('#east_table table').find('tr').each(function(){
+		$('#input_table table').find('tr').each(function(){
 			if (this.className == "ss_tablehead") {
 				$(this).find('td').each(function(ix, e){
-					east_headers.push({"title": e.textContent});
+					headers.push({"title": e.textContent});
 				});
 			} else {
 				row = []
 				$(this).find('td').each(function(ix, e){
 					row.push(e.textContent);
 				});
-				east_content.push(row);
+				content.push(row);
 			}
 		});
 		// Delete elements
-		east_selector.remove();
+		selector.remove();
 		$(".ss_title").remove();
 	});
-	console.log(east_content);
 	
-	// Wait for table to arrive from report, then parse it
-	var west_selector = $("#west_table .ss_table");
-	var west_headers = [];
+	// We have the data, now need to split out and tidy up
+	// First step - add the conference
+	content.forEach(function(element) { element.push(conferenceMapping[element[1]]); });
+	headers.push({"title": "Conference"});
+	
+	// Split content out
+	var east_content = [];
 	var west_content = [];
-	waitForEl(west_selector, function() {
-		
-		// Pull data out of table
-		var row;
-		$('#west_table table').find('tr').each(function(){
-			if (this.className == "ss_tablehead") {
-				$(this).find('td').each(function(ix, e){
-					west_headers.push({"title": e.textContent});
-				});
-			} else {
-				row = []
-				$(this).find('td').each(function(ix, e){
-					row.push(e.textContent);
-				});
-				west_content.push(row);
-			}
-		});
-		// Delete elements
-		west_selector.remove();
-		$(".ss_title").remove();
-	});	
+	content.forEach(function(element) { if (element.slice(-1) == "West") { west_content.push(element) } else { east_content.push(element) } } );
+	
+	// Select only columns we want
+	east_content.forEach(function(element, index) { this[index] = element.slice(1,8)}, east_content);
+	west_content.forEach(function(element, index) { this[index] = element.slice(1,8)}, west_content);
+	headers = headers.slice(1,8);
+	
 	console.log(west_content);
+	console.log(east_content);
+	console.log(headers);
 	
 	// Set tables
 	$('#east_datatable_table').DataTable( {
 		data: east_content,
-		columns: east_headers,
+		columns: headers,
 		paging: false,
+		columnDefs: [{"className": "dt-center", "targets": "_all"}],
 		searching: false,
 		info: false,
-		order: [[0, "asc"]]
+		order: [[6, "desc"]]
 	} );
 	$('#west_datatable_table').DataTable( {
 		data: west_content,
-		columns: west_headers,
+		columns: headers,
 		paging: false,
+		columnDefs: [{"className": "dt-center", "targets": "_all"}],
 		searching: false,
 		info: false,
-		order: [[0, "asc"]]
+		order: [[6, "desc"]]
 	} );
 	
 </script>
