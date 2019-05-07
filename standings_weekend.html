@@ -64,7 +64,7 @@
 	  }
 	};
 
-	// Wait for east table to arrive from report, then parse it
+	// Wait for Cricketstaz table to arrive from linked report, then parse it
 	var selector = $("#input_table .ss_table");
 	var headers = [];
 	var content = [];
@@ -85,31 +85,32 @@
 				content.push(row);
 			}
 		});
-		// Delete elements
+		// Delete Cricketstatz embedded elements
 		selector.remove();
 		$(".ss_title").remove();
 	});
 	
 	// We have the data, now need to split out and tidy up
-	// First step - add the conference
+	// First step - add the conference.  Lookup by teamname, which is element one of every team record array.
 	content.forEach(function(element) { element.push(conferenceMapping[element[1]]); });
 	headers.push({"title": "Conference"});
 	
-	// Split content out
+	// Split content out by East/West
 	var east_content = [];
 	var west_content = [];
 	content.forEach(function(element) { if (element.slice(-1) == "West") { west_content.push(element) } else { east_content.push(element) } } );
 	
-	// Select only columns we want
+	// Select only columns we want.  This might need to be changed if the report format changes (ie. column order)
 	east_content.forEach(function(element, index) { this[index] = element.slice(1,8)}, east_content);
 	west_content.forEach(function(element, index) { this[index] = element.slice(1,8)}, west_content);
 	headers = headers.slice(1,8);
 	
-	console.log(west_content);
-	console.log(east_content);
-	console.log(headers);
+	// Logging for testing
+	//console.log(west_content);
+	//console.log(east_content);
+	//console.log(headers);
 	
-	// Set tables
+	// Set tables.  For now Points column is column 6, so we sort descending by that in each table
 	$('#east_datatable_table').DataTable( {
 		data: east_content,
 		columns: headers,
