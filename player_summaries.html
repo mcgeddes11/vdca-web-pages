@@ -1,0 +1,83 @@
+<html>
+<head>
+<style type="text/css">
+body {
+    -webkit-text-size-adjust: 100%;
+}
+td {font-family: Arial, Helvetica, sans-serif; padding:6px;font-size: 12px;}
+th {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #ffffff; background-color: #cc3333}
+p {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #222222}
+a:link { font-family: Arial, Helvetica, sans-serif; color: #cc0000; text-decoration: none}
+a:visited { font-family: Arial, Helvetica, sans-serif; color: #cc0000; text-decoration: none}
+a:hover { font-family: Arial, Helvetica, sans-serif; color: #cc0000; text-decoration: underline}
+.small { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #222222}
+.headings { font-family: Arial, Helvetica, sans-serif; font-size: 18px; color: #000000; font-weight: bold}
+.majorheading { font-family: Arial, Helvetica, sans-serif; font-size: 24px; color: #cc0000; font-weight: bold}
+.thead { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #ffffff; background-color: #cc3333; font-weight: bold}
+.theadsm { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #ffffff; background-color: #cc3333}
+.tborder { background-color: #cc4444;}
+.filter {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 4px;
+    color: #000000;
+    background-color: #dddddd;
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+    .filter td {
+        padding: 0px;
+        vertical-align: top;
+    }
+
+form {
+    margin: 0px;
+}
+
+.btnav { font-size: 13px; text-decoration: none; font-weight:bold; background-color: #ffffff; border-bottom: 1px solid #dddddd;text-align:center;} 
+.btnav:hover { background-color: #cccccc; } 
+.ss_table {background-color:#ffffff;border-collapse: collapse;}
+.ss_table td {border-bottom: 1px solid #ddd;}
+.ss_matchtable {background-color:#ffffff;border-collapse: collapse;width:500px;}
+.ss_matchtable td {border-bottom: 1px solid #ddd;}
+.ss_tablerow:hover {background-color: #eeeeee}
+.ss_tablehead {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#222222; font-weight: bold;background-color: #dddddd}
+
+.ss_tablerow {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#222222;}
+.ss_title {font-family: Arial, Helvetica, sans-serif; font-size:10pt; color:#ffffff; background-color: #cc3333; font-weight: bold;display:inline-block; padding:5px;}
+.ss_menu { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #222222}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+  function respond(message) {
+    window.parent.postMessage(message,"*");
+  }
+  
+	var waitForEl = function(selector, callback) {
+	  if (jQuery(selector).length) {
+		callback();
+	  } else {
+		setTimeout(function() {
+		  waitForEl(selector, callback);
+		}, 100);
+	  }
+	};
+
+	waitForEl(".ss_table", function() {
+	  console.log("table loaded");
+	  respond("Table loaded");
+	});
+
+
+ 
+  
+</script> 
+
+<p>
+<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=39&club=23365&grade=0&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=1800&eday=31&emonth=Dec&eYear=9999&finals=0&team=0&oppteam=0&round=&mininns=0'>
+</script>
+</p>
