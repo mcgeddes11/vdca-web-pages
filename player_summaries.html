@@ -36,7 +36,7 @@
 
 	
 	
-<script type="text/javascript">
+<script>
   function respond(message) {
     window.parent.postMessage(message,"*");
   }
@@ -59,7 +59,7 @@
         var content = [];
       // Pull data out of table
         var row;
-        $('#input_table table').find('tr').each(function(){
+        $('#input_table table').find('tr').each(function(ix_row, e_row){
             if (this.className == "ss_tablehead") {
                 $(this).find('td').each(function(ix, e){
                     headers.push({"title": e.textContent});
@@ -68,7 +68,10 @@
                 row = []
                 $(this).find('td').each(function(ix, e){
                     // TODO: embed the url for the player page in Cricketstatz in the table
-                    row.push(e.textContent);
+					if (e.lastChild && e.lastChild.href) 
+						{row.push(e.innerHTML);}
+					else 
+						{row.push(e.textContent);}
                 });
                 content.push(row);
             }
@@ -91,6 +94,5 @@
 	});
 
 
- 
   
 </script> 
