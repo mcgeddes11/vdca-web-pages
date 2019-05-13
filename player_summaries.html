@@ -1,57 +1,41 @@
 <html>
 <head>
-<style type="text/css">
-body {
-    -webkit-text-size-adjust: 100%;
-}
-td {font-family: Arial, Helvetica, sans-serif; padding:6px;font-size: 12px;}
-th {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #ffffff; background-color: #cc3333}
-p {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #222222}
-a:link { font-family: Arial, Helvetica, sans-serif; color: #cc0000; text-decoration: none}
-a:visited { font-family: Arial, Helvetica, sans-serif; color: #cc0000; text-decoration: none}
-a:hover { font-family: Arial, Helvetica, sans-serif; color: #cc0000; text-decoration: underline}
-.small { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #222222}
-.headings { font-family: Arial, Helvetica, sans-serif; font-size: 18px; color: #000000; font-weight: bold}
-.majorheading { font-family: Arial, Helvetica, sans-serif; font-size: 24px; color: #cc0000; font-weight: bold}
-.thead { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #ffffff; background-color: #cc3333; font-weight: bold}
-.theadsm { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #ffffff; background-color: #cc3333}
-.tborder { background-color: #cc4444;}
-.filter {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    padding: 4px;
-    color: #000000;
-    background-color: #dddddd;
-    margin-bottom: 4px;
-    margin-top: 4px;
-}
-    .filter td {
-        padding: 0px;
-        vertical-align: top;
-    }
 
-form {
-    margin: 0px;
-}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/autofill/2.3.3/css/autoFill.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.1/css/colReorder.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.6/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css">
 
-.btnav { font-size: 13px; text-decoration: none; font-weight:bold; background-color: #ffffff; border-bottom: 1px solid #dddddd;text-align:center;} 
-.btnav:hover { background-color: #cccccc; } 
-.ss_table {background-color:#ffffff;border-collapse: collapse;}
-.ss_table td {border-bottom: 1px solid #ddd;}
-.ss_matchtable {background-color:#ffffff;border-collapse: collapse;width:500px;}
-.ss_matchtable td {border-bottom: 1px solid #ddd;}
-.ss_tablerow:hover {background-color: #eeeeee}
-.ss_tablehead {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#222222; font-weight: bold;background-color: #dddddd}
 
-.ss_tablerow {font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#222222;}
-.ss_title {font-family: Arial, Helvetica, sans-serif; font-size:10pt; color:#ffffff; background-color: #cc3333; font-weight: bold;display:inline-block; padding:5px;}
-.ss_menu { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #222222}
 
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/autofill/2.3.3/js/dataTables.autoFill.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+
+
+
 <body>
+    <div id="player_summaries">
+        <h3>Player Summaries</h3>
+	    <table id="summary_datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
+    </div>
+    <div id="input_table" style="display:none">
+        <script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=39&club=23365&grade=0&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=2019&eday=31&emonth=Dec&eYear=9999&finals=0&team=0&oppteam=0&round=&mininns=0'></script>
+    </div>
+
+
+	
+	
 <script type="text/javascript">
   function respond(message) {
     window.parent.postMessage(message,"*");
@@ -66,9 +50,43 @@ form {
 		}, 100);
 	  }
 	};
-
+    selector = 
 	waitForEl(".ss_table", function() {
 	  console.log("table loaded");
+      
+      // Code to do cool things goes here
+        var headers = [];
+        var content = [];
+      // Pull data out of table
+        var row;
+        $('#input_table table').find('tr').each(function(){
+            if (this.className == "ss_tablehead") {
+                $(this).find('td').each(function(ix, e){
+                    headers.push({"title": e.textContent});
+                });
+            } else {
+                row = []
+                $(this).find('td').each(function(ix, e){
+                    // TODO: embed the url for the player page in Cricketstatz in the table
+                    row.push(e.textContent);
+                });
+                content.push(row);
+            }
+        });
+		// Delete Cricketstatz embedded elements
+      var selector = $("#input_table .ss_table");
+	  selector.remove();
+      $(".ss_title").remove();
+        
+      	$('#summary_datatable_table').DataTable( {
+            data: content,
+            columns: headers,
+            paging: true,
+            columnDefs: [{"className": "dt-center", "targets": "_all"}],
+            info: false,
+            order: [[1, "asc"]]
+	    } );
+      // End code to do cool things  
 	  respond("Table loaded");
 	});
 
@@ -76,8 +94,3 @@ form {
  
   
 </script> 
-
-<p>
-<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=39&club=23365&grade=0&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=1800&eday=31&emonth=Dec&eYear=9999&finals=0&team=0&oppteam=0&round=&mininns=0'>
-</script>
-</p>
