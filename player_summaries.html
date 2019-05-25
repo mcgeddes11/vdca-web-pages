@@ -29,8 +29,9 @@
         <h3>Player Summaries</h3>
 	    <table id="summary_datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
     </div>
+	<div id="loading_placeholder">Loading...</div>
     <div id="input_table" style="display:none">
-        <script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=39&club=23365&grade=0&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=2019&eday=31&emonth=Dec&eYear=9999&finals=0&team=0&oppteam=0&round=&mininns=0'></script>
+        <script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=39&club=23365&grade=0&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=2000&eday=31&emonth=Dec&eYear=9999&finals=0&team=0&oppteam=0&round=&mininns=0'></script>
     </div>
 
 
@@ -50,7 +51,7 @@
 		}, 100);
 	  }
 	};
-    selector = 
+	
 	waitForEl(".ss_table", function() {
 	  console.log("table loaded");
       
@@ -80,15 +81,21 @@
       var selector = $("#input_table .ss_table");
 	  selector.remove();
       $(".ss_title").remove();
-        
-      	$('#summary_datatable_table').DataTable( {
+		
+	  // Remove EXTID column from data and headers
+	  headers.splice(3,1);
+	  content.forEach(function(element, index) { element.splice(3,1) });
+
+		$('#summary_datatable_table').DataTable( {
             data: content,
             columns: headers,
             paging: true,
+			scrollX: true,
             columnDefs: [{"className": "dt-center", "targets": "_all"}],
             info: false,
             order: [[1, "asc"]]
 	    } );
+	  $("#loading_placeholder").remove();
       // End code to do cool things  
 	  respond("Table loaded");
 	});
