@@ -85,6 +85,10 @@
 	  // Remove EXTID column from data and headers
 	  headers.splice(3,1);
 	  content.forEach(function(element, index) { element.splice(3,1) });
+	  
+	  // Remove DOB
+	  headers.splice(2,1);
+	  content.forEach(function(element, index) { element.splice(2,1) });
 
 		$('#summary_datatable_table').DataTable( {
             data: content,
