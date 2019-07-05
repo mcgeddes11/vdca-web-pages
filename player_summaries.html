@@ -38,6 +38,22 @@
 	
 	
 <script>
+
+  // Proper sort for HS column with notouts
+  jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "hs-notout-pre": function ( a ) {
+        return parseFloat( a );
+    },
+ 
+    "hs-notout-asc": function ( a, b ) {
+        return a - b;
+    },
+ 
+    "hs-notout-desc": function ( a, b ) {
+        return b - a;
+    }
+  } );
+  
   function respond(message) {
     window.parent.postMessage(message,"*");
   }
@@ -89,6 +105,9 @@
 	  // Remove DOB
 	  headers.splice(2,1);
 	  content.forEach(function(element, index) { element.splice(2,1) });
+	  
+	  // Fix HS column sorting
+	  headers[7] = {"title": "HS", "type": "hs-notout"};
 
 		$('#summary_datatable_table').DataTable( {
             data: content,
