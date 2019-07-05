@@ -1,0 +1,238 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/autofill/2.3.3/css/autoFill.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.1/css/colReorder.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.6/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css">
+
+
+
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/autofill/2.3.3/js/dataTables.autoFill.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+
+
+
+<body>
+	<div id="pageheader">
+		<h3>Statistics</h3>
+	</div>
+	<div id="loading_placeholder">Loading...</div>
+	<div id="table_content" style="display:none">
+		<div id="batting">
+			<h4>Batting</h4>
+			<table id="batting_datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
+		</div>
+		<div id="bowling">
+			<h4>Bowling</h4>
+			<table id="bowling_datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
+		</div>
+		<div id="fielding">
+			<h4>Fielding</h4>Nothin bro
+			<table id="fielding_datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
+		</div>		
+	</div>
+    <div id="input_tables" style="display:none">
+		<div id="batting_stats">
+			<div id="batIncogs">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17879&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="batColts">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17814&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="batIslanders">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17884&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="batMetchosin">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17808&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="batNanaimo">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17918&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>			
+			<div id="batCowichan">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17877&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>				
+			<div id="batAlbion">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17809&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="batUniversity">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17890&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="batAlcos">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17881&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>		
+			<div id="batOakbay">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=4&club=23365&playerid=&mininns=&minruns=&minovers=&team=17882&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>	
+		</div>
+		<div id="bowling_stats">
+			<div id="bwlIncogs">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17879&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="bwlColts">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17814&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="bwlIslanders">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17884&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="bwlMetchosin">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17808&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="bwlNanaimo">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17918&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>			
+			<div id="bwlCowichan">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17877&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>				
+			<div id="bwlAlbion">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17809&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="bwlUniversity">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17890&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>
+			<div id="bwlAlcos">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17881&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>		
+			<div id="bwlOakbay">
+				<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=5&club=23365&playerid=&mininns=&minruns=&minovers=&team=17882&grade=9302&pool=&season=2019&finals=0'></script>
+			</div>			
+		</div>		
+		</div>
+    </div>
+
+
+	
+	
+<script>
+  var batting_table_headers = [];
+  var batting_table_content = [];
+  var bowling_table_headers = [];
+  var bowling_table_content = [];
+  
+  function parse_table_contents(parent_id, table_id){
+	var row;
+	var content = [];
+	var headers = [];
+	$('#' + parent_id + ' #' + table_id + ' ' + ' table').find('tr').each(function(ix_row, e_row){
+		if (this.className == "ss_tablehead"){
+			$(this).find('td').each(function(ix, e){
+				headers.push({"title": e.textContent});
+			});
+		} else {
+			row = []
+			$(this).find('td').each(function(ix, e){
+				// TODO: embed the url for the player page in Cricketstatz in the table
+				if (e.lastChild && e.lastChild.href) 
+					{row.push(e.innerHTML);}
+				else 
+					{row.push(e.textContent);}
+			});
+			content.push(row);
+		}
+	});
+	return {"content": content, "headers": headers};
+  }
+  
+  
+  function respond(message) {
+    window.parent.postMessage(message,"*");
+  }
+  
+	var waitForEl = function(selector, callback) {
+	  if (jQuery(selector).length) {
+		callback();
+	  } else {
+		setTimeout(function() {
+		  waitForEl(selector, callback);
+		}, 100);
+	  }
+	};
+	
+	waitForEl(".ss_table", function() {
+	  console.log("tables loaded");
+      
+      // Code to do cool things goes here
+      // Pull data out of table
+	  var table_values;
+	  
+	  // Find all the batting stats teams
+	  var team_divs = $("#batting_stats").children().toArray();
+	  // Grab data from each of those tables
+	  team_divs.forEach(function(element) {
+		table_values = parse_table_contents("batting_stats", element.id);
+		if (batting_table_headers.length == 0){
+			batting_table_headers = batting_table_headers.concat(table_values["headers"]);
+		}
+		batting_table_content = batting_table_content.concat(table_values["content"]);
+	  });
+	  
+	  // Find all the bowling stats teams
+	  var team_divs = $("#bowling_stats").children().toArray();
+	  // Grab data from each of those tables
+	  team_divs.forEach(function(element) {
+		table_values = parse_table_contents("bowling_stats", element.id);
+		if (bowling_table_headers.length == 0){
+			bowling_table_headers = bowling_table_headers.concat(table_values["headers"]);
+		}
+		bowling_table_content = bowling_table_content.concat(table_values["content"]);
+	  });	  
+	  
+	  // Delete Cricketstatz embedded elements
+      var selector = $("#input_table .ss_table");
+	  selector.remove();
+      $(".ss_title").remove();
+	  
+	  
+	  // Remove number column from data and headers
+	  batting_table_headers.splice(0,1);
+	  batting_table_content.forEach(function(element, index) { element.splice(0,1) });
+	  console.log(batting_table_content);
+	  console.log(batting_table_headers);
+	  
+	  bowling_table_headers.splice(0,1);
+	  bowling_table_content.forEach(function(element, index) { element.splice(0,1) });
+	  console.log(bowling_table_headers);
+	  console.log(bowling_table_content);
+	  
+		$('#batting_datatable_table').DataTable( {
+			data: batting_table_content,
+			columns: batting_table_headers,
+			paging: true,
+			scrollX: true,
+			columnDefs: [{"className": "dt-center", "targets": "_all"}],
+			info: false,
+			order: [[12, "desc"]]
+		} );
+	  
+	  	$('#bowling_datatable_table').DataTable( {
+			data: bowling_table_content,
+			columns: bowling_table_headers,
+			paging: true,
+			scrollX: true,
+			columnDefs: [{"className": "dt-center", "targets": "_all"}],
+			info: false,
+			order: [[10, "desc"]]
+		} );
+	  
+	  // Clean up stuff
+	  $("#loading_placeholder").remove();
+	  document.getElementById("table_content").style.display = "block"
+      
+	  // End code to do cool things  
+	  respond("Table loaded");
+	});
+
+
+  
+</script> 

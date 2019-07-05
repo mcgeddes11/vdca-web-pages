@@ -84,10 +84,32 @@
 		$(".ss_title").remove();
 	});
 	
-	
 	// Select only columns we want.  This might need to be changed if the report format changes (ie. column order)
-	content.forEach(function(element, index) { this[index] = element.slice(1,8)}, content);
-	headers = headers.slice(1,8);
+	content.forEach(function(element, index) { this[index] = element.slice(1,7).concat(element.slice(14,15)).concat(element.slice(7,8))}, content);
+	headers = headers.slice(1,7).concat(headers.slice(14,15)).concat(headers.slice(7,8))
+	
+	// Add a rank column
+	headers.unshift({"title": "Rank"});
+	// Sort descending by points
+	content = content.sort((a,b) => (parseFloat(a[7]) < parseFloat(b[7])) ? 1 : -1)
+	// Assign rank values - ties get same rank
+	// TODO: tie-breaking logic
+	content = content.map(function(e,ix) { 
+		if (ix == 0){
+			e.unshift("1");
+		} else {
+			// If they have the same number of points (note that content has been altered to have an additional column, so we compare columns 7 and 8)
+			if (parseFloat(e[7]) == parseFloat(content[ix-1][8])){
+				e.unshift(content[ix-1][0]);
+			} else {
+				e.unshift((ix+1).toString());
+			}
+		}
+		
+		return e;
+	});
+	console.log(headers);
+	console.log(content);
 	
 	// Set tables.  For now Points column is column 6, so we sort descending by that in each table
 	$('#midweek_datatable_table').DataTable( {
@@ -96,8 +118,9 @@
 		paging: false,
 		columnDefs: [{"className": "dt-center", "targets": "_all"}],
 		searching: false,
+		ordering: false,
 		info: false,
-		order: [[6, "desc"]]
+		order: [[7, "desc"]]
 	} );
 	
 </script>
