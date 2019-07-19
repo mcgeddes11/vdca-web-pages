@@ -1,0 +1,181 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/autofill/2.3.3/css/autoFill.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.1/css/colReorder.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.6/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css">
+
+
+
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/autofill/2.3.3/js/dataTables.autoFill.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+
+
+
+<body>
+<div id="midweek_tier1">
+	<h3>Standings - Tier 1</h3>
+	<table id="midweek_datatable_tier1" class="table table-striped table-bordered" style="width:100%"></table>
+</div>
+<div id="midweek_tier2">
+	<h3>Standings - Tier 2</h3>
+	<table id="midweek_datatable_tier2" class="table table-striped table-bordered" style="width:100%"></table>
+</div>
+
+
+<div id="input_table_tier1" style="display:none">
+	<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=1&club=23365&grade=9307&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=2019&eday=31&emonth=Dec&eYear=9999&finals=0&team=0&oppteam=0&round=&mininns=0'></script>
+</div>
+<div id="input_table_tier2" style="display:none">
+	<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=1&club=23365&grade=9308&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=2019&eday=31&emonth=Dec&eYear=9999&finals=0&team=0&oppteam=0&round=&mininns=0'></script>
+</div>
+
+
+ 
+ <script>
+	tier1_content = []
+	tier2_content = []
+	table_headers = []
+	  function parse_table_contents(table_id){
+		var row;
+		var content = [];
+		var headers = [];
+		$('#' + table_id + ' table').find('tr').each(function(ix_row, e_row){
+			if (this.className == "ss_tablehead"){
+				$(this).find('td').each(function(ix, e){
+					headers.push({"title": e.textContent});
+				});
+			} else {
+				row = []
+				$(this).find('td').each(function(ix, e){
+					// TODO: embed the url for the player page in Cricketstatz in the table
+					if (e.lastChild && e.lastChild.href) 
+						{row.push(e.innerHTML);}
+					else 
+						{row.push(e.textContent);}
+				});
+				content.push(row);
+			}
+		});
+		return {"content": content, "headers": headers};
+	  }	
+	
+	var waitForEl = function(selector, callback, count) {
+	  if (jQuery(selector).length) {
+		callback();
+	  } else {
+		setTimeout(function() {
+		  if(!count) {
+			count=0;
+		  }
+		  count++;
+		  if(count<10) {
+			waitForEl(selector,callback,count);
+		  } else {return;}
+		}, 100);
+	  }
+	};
+
+	// Wait for Cricketstaz table to arrive from linked report, then parse it
+	var selector = $(".ss_table");
+	var headers = [];
+	var content = [];
+	waitForEl(selector, function() {
+		
+		// Pull data out of tier 1 table
+		tier1_values = parse_table_contents("input_table_tier1");
+		tier2_values = parse_table_contents("input_table_tier2");
+		tier1_content = tier1_values["content"]
+		tier2_content = tier2_values["content"]
+		table_headers = tier1_values["headers"]
+		// Delete Cricketstatz embedded elements
+		selector.remove();
+		$(".ss_title").remove();
+	});
+
+	// Select only columns we want.  This might need to be changed if the report format changes (ie. column order)
+		// Select only columns we want.  This might need to be changed if the report format changes (ie. column order)
+	tier1_content.forEach(function(element, index) { this[index] = element.slice(1,7).concat(element.slice(14,15)).concat(element.slice(7,8))}, tier1_content);
+	tier2_content.forEach(function(element, index) { this[index] = element.slice(1,7).concat(element.slice(14,15)).concat(element.slice(7,8))}, tier2_content);
+	table_headers = table_headers.slice(1,7).concat(table_headers.slice(14,15)).concat(table_headers.slice(7,8))
+
+	
+	// Add a rank column
+	table_headers.unshift({"title": "Rank"});
+	// Sort descending by points
+	tier1_content = tier1_content.sort((a,b) => (parseFloat(a[7]) < parseFloat(b[7])) ? 1 : -1)
+	tier2_content = tier2_content.sort((a,b) => (parseFloat(a[7]) < parseFloat(b[7])) ? 1 : -1)
+	// Tier 1 rankings
+	tier1_content = tier1_content.map(function(e,ix) { 
+		if (ix == 0){
+			e.unshift("1");
+		} else {
+			// If they have the same number of points (note that content has been altered to have an additional column, so we compare columns 7 and 8)
+			if (parseFloat(e[7]) == parseFloat(tier1_content[ix-1][8])){
+				e.unshift(tier1_content[ix-1][0]);
+			} else {
+				e.unshift((ix+1).toString());
+			}
+		}
+		
+		return e;
+	});
+	// Tier2 rankings
+	tier2_content = tier2_content.map(function(e,ix) { 
+		if (ix == 0){
+			e.unshift("1");
+		} else {
+			// If they have the same number of points (note that content has been altered to have an additional column, so we compare columns 7 and 8)
+			if (parseFloat(e[7]) == parseFloat(tier2_content[ix-1][8])){
+				e.unshift(tier2_content[ix-1][0]);
+			} else {
+				e.unshift((ix+1).toString());
+			}
+		}
+		
+		return e;
+	});	
+	console.log(table_headers);
+	console.log(tier1_content);
+	console.log(tier2_content);
+	
+	// Set tables.  For now Points column is column 6, so we sort descending by that in each table
+	$('#midweek_datatable_tier1').DataTable( {
+		data: tier1_content,
+		columns: table_headers,
+		paging: false,
+		columnDefs: [{"className": "dt-center", "targets": "_all"}],
+		searching: false,
+		ordering: false,
+		info: false,
+		order: [[7, "desc"]]
+	} );
+	
+	$('#midweek_datatable_tier2').DataTable( {
+		data: tier2_content,
+		columns: table_headers,
+		paging: false,
+		columnDefs: [{"className": "dt-center", "targets": "_all"}],
+		searching: false,
+		ordering: false,
+		info: false,
+		order: [[7, "desc"]]
+	} );	
+
+</script>
+
+
+</body>
+</html>
