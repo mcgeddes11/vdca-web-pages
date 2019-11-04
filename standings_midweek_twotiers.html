@@ -45,9 +45,32 @@
 
  
  <script>
+	
+	
+	
 	tier1_content = []
 	tier2_content = []
 	table_headers = []
+	results_linkout_base_url = "https://www2.cricketstatz.com/ss/runreport2.aspx?mode=12&club=23365&grade=0&ground=&mtype=&pool=&sday=1&smonth=Jan&sYear=2019&eday=31&emonth=Dec&eYear=9999&finals=0&team={team_id}&oppteam=0&round=&mininns=0"
+	
+	function get_teams(){
+	// TODO: Make this work properly
+	/*
+		var team_list;
+		const Http = new XMLHttpRequest();
+		const url = "https://www2.cricketstatz.com/ss/getteams.aspx?league=23365"
+		Http.open("GET", url);
+		Http.send();
+		Http.onreadstatechange = (e) => {
+			console.log(Http.responseText);
+			team_list = Http.responseText;
+		}
+		
+	*/
+		team_list = [{"Name":"Broncos","TeamID":17806,"Club":"Albion Cricket Club"},{"Name":"Sticky Wicket","TeamID":17807,"Club":"Sticky Wicket Cricket Club"},{"Name":"Metchosin Weekend","TeamID":17808,"Club":"Metchosin Cricket Club"},{"Name":"Albion","TeamID":17809,"Club":"Albion Cricket Club"},{"Name":"Metchosin Midweek","TeamID":17810,"Club":"Metchosin Cricket Club"},{"Name":"Beagle","TeamID":17811,"Club":"Beagle Cricket Club"},{"Name":"Castaways","TeamID":17812,"Club":"Castaways Cricket Club"},{"Name":"Central Saanich","TeamID":17813,"Club":"Central Saanich Cricket Club"},{"Name":"Colts Weekend","TeamID":17814,"Club":"Colts Cricket Club"},{"Name":"Fulham","TeamID":17815,"Club":"Fulham Cricket Club"},{"Name":"MCC","TeamID":17816,"Club":"Mr Christy's Cricket Club"},{"Name":"Pig's Trotters","TeamID":17817,"Club":"Pig’s Trotters Cricket Club"},{"Name":"Ross Bay","TeamID":17818,"Club":"Ross Bay Cricket Club"},{"Name":"Spinnakers","TeamID":17819,"Club":"Spinnakers Cricket Club"},{"Name":"Stonewallers","TeamID":17820,"Club":"Stonewallers Cricket Club"},{"Name":"UVIC Midweek","TeamID":17821,"Club":"University of Victoria Cricket Club"},{"Name":"Wicket Maidens","TeamID":17822,"Club":"Wicket Maiden's Cricket Club"},{"Name":"Colts Midweek","TeamID":17893,"Club":"Colts Cricket Club"},{"Name":"Colts International","TeamID":17894,"Club":"Colts Cricket Club"},{"Name":"Dapto","TeamID":17895,"Club":"Dapto Canaries Cricket Club"},{"Name":"Quester Tangent","TeamID":17896,"Club":"Quester Tangent Cricket Club"},{"Name":"Castaways CC Visas","TeamID":17897,"Club":"Castaways Cricket Club"},{"Name":"Saanich CC","TeamID":17898,"Club":"Saanich Cricket Club"},{"Name":"Incogs Alumni","TeamID":17899,"Club":"Incogs Cricket Club"},{"Name":"Univ. CC LA","TeamID":17900,"Club":"University LA Cricket Club"},{"Name":"Valley Vikings","TeamID":17901,"Club":"Valley Vikings Cricket Club"},{"Name":"Young Canada","TeamID":17902,"Club":"Colts Cricket Club"},{"Name":"Pigeon Mountain","TeamID":17903,"Club":"Air New Zealand Cricket Club"},{"Name":"Air New Zealand","TeamID":17904,"Club":"Air New Zealand Cricket Club"},{"Name":"Wanderers","TeamID":17905,"Club":"Wanderers Cricket Club"},{"Name":"British Caledonia - ENG","TeamID":17906,"Club":"British Caledonia Cricket Club"},{"Name":"Friends 11","TeamID":17907,"Club":"Victoria and District Cricket Association"},{"Name":"Peninsula","TeamID":17908,"Club":"Peninsula Cricket Club"},{"Name":"Milano-Mex","TeamID":17909,"Club":"Milano-Mex Cricket Club"},{"Name":"Pigeon Mountain Black","TeamID":17910,"Club":"Pigeon Mountain Cricket Club"},{"Name":"Pigeon Mountain Blue","TeamID":17911,"Club":"Pigeon Mountain Cricket Club"},{"Name":"Salim Akbar","TeamID":17912,"Club":"Victoria and District Cricket Association"},{"Name":"Texas","TeamID":17913,"Club":"Texas Cricket Club"},{"Name":"ANZACs","TeamID":17914,"Club":"ANZAC Cricket Club"},{"Name":"Isle of Man","TeamID":17915,"Club":"Isle of Man"},{"Name":"Lesbos","TeamID":17916,"Club":"Lesbos Cricket Club"},{"Name":"Local Kitchen","TeamID":17917,"Club":"Local Kitchen Cricket Club"},{"Name":"Nanaimo","TeamID":17918,"Club":"Nanaimo District Cricket Club"},{"Name":"Midweek Selects","TeamID":17919,"Club":"Victoria and District Cricket Association"},{"Name":"Presidents XI","TeamID":17920,"Club":"Victoria and District Cricket Association"},{"Name":"Vice Presidents XI","TeamID":17921,"Club":"Victoria and District Cricket Association"},{"Name":"Sundowners","TeamID":17922,"Club":"Sundowners Cricket Club"},{"Name":"Victoria Warriors","TeamID":17923,"Club":"Victoria and District Cricket Association"},{"Name":"Vancouver (BCMCL)","TeamID":17924,"Club":"Vancouver CC"},{"Name":"Victoria (VDCA)","TeamID":17926,"Club":"Victoria and District Cricket Association"},{"Name":"Hole Diggers","TeamID":17927,"Club":"Hole Diggers Cricket Club"},{"Name":"Bubby's Kitchen","TeamID":17928,"Club":"Bubby's Kitchen Cricket Club"},{"Name":"Cowichan United","TeamID":17929,"Club":"Cowichan United Cricket Club"},{"Name":"ACF Edmonton","TeamID":17938,"Club":"ACF Edmonton Cricket Club"},{"Name":"BC XI","TeamID":17939,"Club":"Victoria and District Cricket Association"},{"Name":"U of the Fraser Valley","TeamID":17941,"Club":"Universities CCs"},{"Name":"University of Calgary","TeamID":17942,"Club":"Universities CCs"},{"Name":"VIC-U-19","TeamID":17943,"Club":"Victoria and District Cricket Association"},{"Name":"Kwantlen Polytechnic Univ.","TeamID":17944,"Club":"Universities CCs"},{"Name":"Marylebone CC","TeamID":17945,"Club":"Victoria and District Cricket Association"},{"Name":"Van-U-19","TeamID":17954,"Club":"Vancouver CC"},{"Name":"Meraloma Cricket Club","TeamID":17960,"Club":"Vancouver CC"},{"Name":"Cowichan","TeamID":17877,"Club":"Cowichan Cricket Club"},{"Name":"Incogs","TeamID":17879,"Club":"Incogs Cricket Club"},{"Name":"Carico","TeamID":17880,"Club":"Carico Cricket Club"},{"Name":"Alcos","TeamID":17881,"Club":"Alcos Cricket Club"},{"Name":"Oak Bay","TeamID":17882,"Club":"Oak Bay Cricket Club"},{"Name":"Sticky Wicket Six Aside","TeamID":17883,"Club":"Sticky Wicket Cricket Club"},{"Name":"Islanders","TeamID":17884,"Club":"Islanders Cricket Club"},{"Name":"Dallas","TeamID":17885,"Club":"Dallas Cricket Club"},{"Name":"Fernwood Inn","TeamID":17888,"Club":"Castaways Cricket Club"},{"Name":"United","TeamID":17889,"Club":"United Victoria Cricket Club"},{"Name":"University","TeamID":17890,"Club":"University of Victoria Cricket Club"},{"Name":"Alcos A","TeamID":17891,"Club":"Alcos Cricket Club"},{"Name":"Alcos B","TeamID":17892,"Club":"Alcos Cricket Club"}]
+		return team_list;
+	}
+	
 	  function parse_table_contents(table_id){
 		var row;
 		var content = [];
@@ -93,7 +116,7 @@
 	var headers = [];
 	var content = [];
 	waitForEl(selector, function() {
-		
+		team_list = get_teams();
 		// Pull data out of tier 1 table
 		tier1_values = parse_table_contents("input_table_tier1");
 		tier2_values = parse_table_contents("input_table_tier2");
@@ -147,6 +170,23 @@
 		
 		return e;
 	});	
+	
+	// Add the report linkout to the Name element in the table
+	var linked_name;
+	tier1_content = tier1_content.map(function(e,ix) { 
+		linked_name = team_list.find(function(el) { return el.Name == e[1] });
+		console.log(linked_name.TeamID);
+		e[1] = '<a href="' + results_linkout_base_url.replace("{team_id}", linked_name.TeamID.toString()) + ' target="_blank">' + linked_name.Name + '</a>';
+		return e;
+	});
+	tier2_content = tier2_content.map(function(e,ix) { 
+		linked_name = team_list.find(function(el) { return el.Name == e[1] });
+		console.log(linked_name.TeamID);
+		e[1] = '<a href="' + results_linkout_base_url.replace("{team_id}", linked_name.TeamID.toString()) + ' target="_blank">' + linked_name.Name + '</a>';
+		return e;
+	});
+	
+	
 	console.log(table_headers);
 	console.log(tier1_content);
 	console.log(tier2_content);
