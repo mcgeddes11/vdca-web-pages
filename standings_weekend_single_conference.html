@@ -1,6 +1,6 @@
 <html>
 <head>
-
+<base target="_blank" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/autofill/2.3.3/css/autoFill.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
@@ -25,18 +25,14 @@
 ​
 
 <body>
-<div id="east_div">
-	<h3>Standings - Eastern Conference</h3>
-	<table id="east_datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
-</div>
-<div id="east_div">
-	<h3>Standings - Western Conference</h3>
-	<table id="west_datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
+<div id="table_div">
+	<h3>2020 Weekend Standings</h3>
+	<table id="datatable_table" class="table table-striped table-bordered" style="width:100%"></table>
 </div>
 
 <div id="input_table" style="display:none">
 	<p>
-	<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=1&club=23365&playerid=&mininns=&minruns=&minovers=&team=&grade=9302&pool=&season=2019&finals=0'></script>
+	<script src='https://www2.cricketstatz.com/ss/linkreport.aspx?mode=1&club=23365&playerid=&mininns=&minruns=&minovers=&team=&grade=9302&pool=&season=2020&finals=0'></script>
 	</p>
 </div>
 
@@ -63,9 +59,7 @@
 		return team_list;
 	}
  
-	var conferenceMapping = {"Albion": "West", "University": "West", "Colts Weekend": "West", "Alcos": "West", "Oak Bay": "West",
-							 "Islanders": "East", "Incogs": "East", "Nanaimo": "East", "Metchosin Weekend": "East", "Cowichan": "East"};
-	
+
 	var waitForEl = function(selector, callback, count) {
 	  if (jQuery(selector).length) {
 		callback();
@@ -110,42 +104,26 @@
 	});
 	
 	// We have the data, now need to split out and tidy up
-	// First step - add the conference.  Lookup by teamname, which is element one of every team record array.
-	content.forEach(function(element) { element.push(conferenceMapping[element[1]]); });
-	headers.push({"title": "Conference"});
-	
-	// Split content out by East/West
-	var east_content = [];
-	var west_content = [];
-	var team_list = get_teams();
-	content.forEach(function(element) { if (element.slice(-1) == "West") { west_content.push(element) } else { east_content.push(element) } } );
-	
+
 	// Select only columns we want.  This might need to be changed if the report format changes (ie. column order)
-	east_content.forEach(function(element, index) { this[index] = element.slice(1,8)}, east_content);
-	west_content.forEach(function(element, index) { this[index] = element.slice(1,8)}, west_content);
+	content.forEach(function(element, index) { this[index] = element.slice(1,8)}, content);
 	headers = headers.slice(1,8);
 	
-	
+	var team_list = get_teams();
 	
 	// Add team results linkout
-	east_content = east_content.map(function(e,ix) { 
+	content = content.map(function(e,ix) { 
 		linked_name = team_list.find(function(el) { return el.Name == e[0] });
 		//console.log(linked_name.TeamID);
 		console.log(linked_name);
 		e[0] = '<a href="' + results_linkout_base_url.replace("{team_id}", linked_name.TeamID.toString()) + ' target="_blank">' + linked_name.Name + '</a>';
 		return e;
 	});
-	west_content = west_content.map(function(e,ix) { 
-		linked_name = team_list.find(function(el) { return el.Name == e[0] });
-		console.log(linked_name.TeamID);
-		e[0] = '<a href="' + results_linkout_base_url.replace("{team_id}", linked_name.TeamID.toString()) + ' target="_blank">' + linked_name.Name + '</a>';
-		return e;
-	});
 
 	
 	// Set tables.  For now Points column is column 6, so we sort descending by that in each table
-	$('#east_datatable_table').DataTable( {
-		data: east_content,
+	$('#datatable_table').DataTable( {
+		data: content,
 		columns: headers,
 		paging: false,
 		columnDefs: [{"className": "dt-center", "targets": "_all"}],
@@ -154,15 +132,6 @@
 		order: [[6, "desc"]]
 	} );
 
-	$('#west_datatable_table').DataTable( {
-		data: west_content,
-		columns: headers,
-		paging: false,
-		columnDefs: [{"className": "dt-center", "targets": "_all"}],
-		searching: false,
-		info: false,
-		order: [[6, "desc"]]
-	} );
 	
 </script>
 
