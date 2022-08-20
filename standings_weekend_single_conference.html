@@ -106,8 +106,8 @@
 	// We have the data, now need to split out and tidy up
 
 	// Select only columns we want.  This might need to be changed if the report format changes (ie. column order)
-	content.forEach(function(element, index) { this[index] = element.slice(1,8)}, content);
-	headers = headers.slice(1,8);
+	content.forEach(function(element, index) { this[index] = element.slice(1,7).concat(element.slice(14,15)).concat(element.slice(7,8))}, content);
+	headers = headers.slice(1,7).concat(headers.slice(14,15)).concat(headers.slice(7,8))
 	
 	var team_list = get_teams();
 	
@@ -129,7 +129,7 @@
 		columnDefs: [{"className": "dt-center", "targets": "_all"}],
 		searching: false,
 		info: false,
-		order: [[6, "desc"]]
+		order: [[7, "desc"]]
 	} );
 
 	
